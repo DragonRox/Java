@@ -43,26 +43,26 @@ public class Player extends BasicGameState {
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
         isKeyDown = false;
         if (gc.getInput().isKeyDown(Input.KEY_RIGHT)){
-            if (aclX < 10) aclX += 1 * 0.5;
+            if (aclX < 10) aclX += 1 * 0.1;
             isKeyDown = true;
         }
         if (gc.getInput().isKeyDown(Input.KEY_LEFT)){
-            if (aclX > -10) aclX -= 1 * .5;
+            if (aclX > -10) aclX -= 1 * .1;
             isKeyDown = true;
         }
         if (gc.getInput().isKeyDown(Input.KEY_DOWN)){
-            if (aclY < 10) aclY += 1 * .5;
+            if (aclY < 10) aclY += 1 * .1;
             isKeyDown = true;
         }
         if (gc.getInput().isKeyDown(Input.KEY_UP)){
-            if (aclY > -10) aclY -= 1 * .5;
+            if (aclY > -10) aclY -= 1 * .1;
             isKeyDown = true;
         }
         if (isKeyDown == false){
-            if (aclX > 0) aclX -= 1 * .5;
-            else aclX += 1 * .5;
-            if (aclY > 0) aclY -= 1 * .5;
-            else aclY += 1 * .5;
+            if (aclX > 0) aclX -= 1 * .1;
+            else aclX += 1 * .1;
+            if (aclY > 0) aclY -= 1 * .1;
+            else aclY += 1 * .1;
         }
         if (x >= 0 && x <= 1000) x += Math.round(aclX);
         else {if (x < 0) {
@@ -88,7 +88,7 @@ public class Player extends BasicGameState {
         rec.setY(y);        
         if (isOnCooldown) {
             cooldownTimer += delta;
-            if (cooldownTimer > 200) { // 500 is the amount of milliseconds to wait
+            if (cooldownTimer > 200) {
                 isOnCooldown = false;
             }
         } else { if (gc.getInput().isKeyDown(Input.KEY_ENTER)){

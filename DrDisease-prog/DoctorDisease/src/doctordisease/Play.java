@@ -15,9 +15,7 @@ import org.newdawn.slick.state.*;
  *
  * @author saita
  */
-public class Play extends BasicGameState {
-    
-    public final int ID = 2;
+public class Play extends BasicGameState implements KeyListener {
     
     Player guts;
     Iterator it;
@@ -54,6 +52,7 @@ public class Play extends BasicGameState {
             t.update(gc, sbg, delta);
             if (t.y < -10) {
                 iter.remove();
+              
             }
         }             
     }
@@ -62,5 +61,13 @@ public class Play extends BasicGameState {
     public int getID() {
         return 2;
     }
+    
+    @Override
+    public void keyPressed(int key, char c) { 
+    }
+    
+    @Override
+    public void keyReleased(int key, char c) {
+    }    
     
 }

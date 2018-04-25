@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package doctordisease;
 
 import org.newdawn.slick.GameContainer;
@@ -12,14 +17,14 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class Button {
 
-    static int state, language, sound;
+    static int state, language, sound; // variaveis controladoras das opções e estados do game
     static int[] estados = {state, language, sound};
     
     String path;
-    int x, y, var;
     Image[] buttonImg;
     Image imgButton;
     MouseOverArea button;
+    int x, y, var;
     String type;
     Sound snd;
 
@@ -30,25 +35,24 @@ public class Button {
         this.var = var;
         this.snd = snd;
         this.type = type;
-    }
+    }    
 
-    @SuppressWarnings("StringEquality")
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-        buttonImg = new Image[] {new Image("/data/image/Button/"+path+"1.png"), new Image("data/image/Button/"+path+"2.png")};
+        buttonImg = new Image[] {new Image("/data/image/MainMenu/"+path+"1.png"), new Image("data/image/MainMenu/"+path+"2.png")};
         imgButton = buttonImg[0];
+        // criação de um MouseOverArea para detectar click do usuário e realizar update
         if (type == "state"){
-            button = new MouseOverArea(gc, buttonImg[0], x - (buttonImg[0].getWidth()/2), y, buttonImg[0].getWidth(), buttonImg[0].getHeight(),  new ComponentListener() {
+            button = new MouseOverArea(gc, buttonImg[0], x - (buttonImg[0].getWidth()/2), y, buttonImg[0].getWidth(), buttonImg[0].getHeight(),  new ComponentListener() {            
                 @Override            
                 public void componentActivated(AbstractComponent arg0) {
                     estados[0] = var;
-                }
-            });
+                }      
+            });        
             button.setMouseOverImage(buttonImg[1]);
         }
-
-        if (type == "controle"){
+        if (type == "control"){
             button = new MouseOverArea(gc, imgButton, x - (buttonImg[0].getWidth()/2), y, buttonImg[0].getWidth(), buttonImg[0].getHeight(),  new ComponentListener() {            
-                @Override
+                @Override            
                 public void componentActivated(AbstractComponent arg0) {
                     estados[var] += 1;
                     if (estados[var] > 1) estados[var] = 0;
@@ -61,14 +65,16 @@ public class Button {
                         button.setNormalImage(buttonImg[1]);
                         button.setMouseOverImage(buttonImg[1]);
                     }
-                }
-            });
+                }      
+            }); 
         }
         button.setMouseDownSound(snd);
-        
     }
-   
+
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
         button.render(gc, g);
+    }
+
+    public void update(GameContainer gc, StateBasedGame sbg, int i) throws SlickException {
     }
 }

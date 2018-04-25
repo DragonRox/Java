@@ -30,7 +30,7 @@ public class Tiro {
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
-        y -= 15;
+        y -= 10;
         tiro.setY(y);
     }        
 }

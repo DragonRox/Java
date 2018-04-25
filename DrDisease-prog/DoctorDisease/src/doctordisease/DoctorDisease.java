@@ -9,10 +9,11 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class DoctorDisease extends StateBasedGame {
     
-    public static int WIDTH = 1024;
-    public static int HEIGHT = 768;
-    public static int FPS = 60;
-    public static int gameState = 1;
+    // atributos do nosso app/jogo
+    public static final int WIDTH = 1024;
+    public static final int HEIGHT = 768;
+    public static final int FPS = 60;
+    public static int gameState = 0;
     public static boolean gameRunning = true;
     public static AppGameContainer app;
     
@@ -21,12 +22,13 @@ public class DoctorDisease extends StateBasedGame {
     }
     
     public static void main(String[] args) {
-        try
+        try // parte responsável por criar a estrutura/corpo do jogo
             {
 		app = new AppGameContainer(new DoctorDisease("Dr Disease"));
-		app.setDisplayMode(WIDTH, HEIGHT, false);
+		app.setDisplayMode(WIDTH, HEIGHT, true);
                 app.setTargetFrameRate(FPS);
 		app.start();
+                
             }
 	catch (SlickException ex)
             {
@@ -36,7 +38,10 @@ public class DoctorDisease extends StateBasedGame {
 
     @Override
     public void initStatesList(GameContainer gc) throws SlickException {
-        this.addState(new Menu(0));
-        this.addState(new Play(1));
+        // adiciona os states do jogo
+        this.addState(new IntroState(0));
+        this.addState(new Menu(1));
+        this.addState(new Play(2));
     }
+    
 }
