@@ -24,6 +24,7 @@ public class Play extends BasicGameState implements InputProviderListener {
     public final int ID = 2;
     Player guts;
     private Command attack = new BasicCommand("attack");
+    private Command moviment = new BasicCommand("moviment");
     InputProvider provider;
     String message; 
    
@@ -37,6 +38,7 @@ public class Play extends BasicGameState implements InputProviderListener {
         provider = new InputProvider(gc.getInput());
         provider.addListener(this);
         provider.bindCommand(new KeyControl(Input.KEY_SPACE), attack);
+        provider.bindCommand(new KeyControl(Input.KEY_RIGHT), moviment);
     }
    
     @Override
@@ -46,7 +48,7 @@ public class Play extends BasicGameState implements InputProviderListener {
    
     @Override
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
-        guts.update(gc, sbg, delta);           
+        guts.update(gc, sbg, delta); 
     }
     
     @Override
@@ -56,13 +58,16 @@ public class Play extends BasicGameState implements InputProviderListener {
 
     @Override
     public void controlPressed(Command cmnd) {
-        message = "Pressed: "+ cmnd;
-        System.out.println(message);
+        if (cmnd.toString().contains("attack")) try {
+            guts.attack();
+        } catch (SlickException ex) {
+            Logger.getLogger(Play.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
     public void controlReleased(Command cmnd) {
-
+        
     }
     
 }

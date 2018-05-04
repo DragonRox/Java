@@ -40,40 +40,16 @@ public class Player {
         for (Tiro t : tiros){
             t.update();
         }      
-        
-        if (x >= 0 && x <= 1000) x += Math.round(aclX);
-        else {if (x < 0) {
-                x += (x * -1);
-                aclX = (float) 0.1;
-            }
-            if (x > 1000) {
-                x -= (x - 1000) + 1;
-                aclX = (float) 0.1;
-            }
-        }
-        if (y >= 0 && y <= 700)  y += Math.round(aclY);
-        else {if (y < 0) {
-                y += (y * -1);
-                aclY = (float) 0.1;
-            }
-            if (y > 700) {
-                y -= (y - 700) + 1;
-                aclY = (float) 0.1;
-            }
-        }       
-        rec.setX(x);
-        rec.setY(y);
-        
         if (isOnCooldown) {
             cooldownTimer += delta;
             if (cooldownTimer > 200) {
                 isOnCooldown = false;
             }
-        }      
+        }
     }
     
     public void attack() throws SlickException{
-        if (isOnCooldown == true){
+        if (isOnCooldown == false){
             tiros.add(new Tiro(x,y));
             isOnCooldown = true;
             cooldownTimer = 0;
