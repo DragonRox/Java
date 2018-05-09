@@ -5,9 +5,7 @@
  */
 package doctordisease;
 
-import java.util.List;
 import org.newdawn.slick.Animation;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -15,44 +13,39 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class Tiro {
+/**
+ *
+ * @author Gabriel
+ */
+public class TiroBoss {
     
     int x, y;
+    float targetX, targetY, arc;
     SpriteSheet bulletSheet;
     Animation bullet;
-    Rectangle hitbox;
-    
-    public Tiro(int x, int y) throws SlickException {
+    Rectangle hitbox;  
+
+    public TiroBoss(int x, int y) throws SlickException {
         this.x = x;
         this.y = y;
-        hitbox = new Rectangle(x + 3, y, 4,9);
-        bulletSheet = new SpriteSheet("data/image/Fase01/bulletsSheet.png", 10, 10);
+        if (Player.x > x) targetX = Player.x - x;
+        else targetX = x - Player.x;
+        bulletSheet = new SpriteSheet("data/image/Fase01/bulletBoss.png", 40,40);
         bullet = new Animation(bulletSheet, 100);
         bullet.setAutoUpdate(false);
-        bullet.stopAt(2);
+        hitbox = new Rectangle(x, y, 20, 20);
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-        g.drawAnimation(bullet, x, y);
-        //g.setColor(Color.transparent);
         g.draw(hitbox);
+        g.drawAnimation(bullet, x, y);
     }
 
     public void update() throws SlickException {
-        y -= 15;
+        System.out.println(targetX);
+        x += targetX / 100;
+        y += 10;
         hitbox.setY(y);
-    }
-    
-    public void intersect(List<HitBoxBoss> hitboxBoss) throws SlickException {
-        if (this.hitbox.intersects(hitboxBoss.get(0).hitbox) || 
-            this.hitbox.intersects(hitboxBoss.get(1).hitbox) ||
-            this.hitbox.intersects(hitboxBoss.get(2).hitbox) ||
-            this.hitbox.intersects(hitboxBoss.get(3).hitbox) ||
-            y < 10){
-            this.bullet.setAutoUpdate(true);  
-        }
-        else{
-            this.update();
-        }
-    }    
+        hitbox.setX(x);
+    }   
 }
