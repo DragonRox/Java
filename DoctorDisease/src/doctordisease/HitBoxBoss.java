@@ -67,11 +67,13 @@ public class HitBoxBoss {
     }
     
     public void attack() throws SlickException {
-        onAttack = true;
-        blaster.restart();
-        this.calcAng();
-        blaster.setAutoUpdate(true);
-        blaster.stopAt(6);
+        if (onAttack == false) {
+            onAttack = true;
+            blaster.restart();
+            this.calcAng();
+            blaster.setAutoUpdate(true);
+            blaster.stopAt(6);
+        }
     }
     
     public Rectangle getHitBox() {

@@ -5,6 +5,7 @@
  */
 package doctordisease;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -14,7 +15,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.StateBasedGame;
 
 /**
@@ -23,13 +23,16 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class Boss {
     
-    int x, y, hp, time, rand;
+    final int idle = 0;
+    final int randomBullets = 1;
+    final int comboBullets = 2;
+    int x, y, hp, time, rand, attack;
     static List<HitBoxBoss> blasters = new ArrayList <HitBoxBoss>();
     static List<TiroBoss> bullets = new ArrayList <TiroBoss>();
     SpriteSheet blasterSheet;
     Image boss, core;
     boolean onPause = false;
-
+    
     public Boss() {
         hp = 1000;
     }
@@ -38,8 +41,8 @@ public class Boss {
         
         blasters.add(new HitBoxBoss(248, 175));
         blasters.add(new HitBoxBoss(440,183));
-        blasters.add(new HitBoxBoss(828, 175));
         blasters.add(new HitBoxBoss(636, 183));
+        blasters.add(new HitBoxBoss(828, 175));
         blasters.parallelStream().forEach(hitbox -> hitbox.blaster.setAutoUpdate(false));
         boss = new Image("data/image/Fase01/body1-1.png");
         core = new Image("data/image/Fase01/core1-1.png");
@@ -64,12 +67,22 @@ public class Boss {
         if (time % 50 == 0) {
             core.rotate(90);
         }
-        if (time % 25 == 0){
-            rand = (int) (Math.random() * 4);
-            if (blasters.get(rand).onAttack == false) {
-                blasters.get(rand).attack();
-            }
+        if (time >= 0) {
+            attack = comboBullets;
+            time -= 200;
         }
+        
+        switch (attack){
+            case idle:
+                break;
+            case randomBullets:
+                this.randomBullets();
+                break;
+            case comboBullets:
+                this.comboBullets();
+                break;
+        }
+        
         blasters.forEach(blasters -> {
             try {
                 blasters.update();
@@ -89,11 +102,34 @@ public class Boss {
             }
         });
         bullets.removeIf(bullets -> bullets.bullet.isStopped());
+        System.out.println(time);
     }
     
     public void pause() {
         blasters.forEach(blasters -> {
             blasters.blaster.setAutoUpdate(false);
         });
+    }
+    
+    public void randomBullets() throws SlickException {
+        if (time % 25 == 0){
+        rand = (int) (Math.random() * 4);
+        if (blasters.get(rand).onAttack == false) {
+        blasters.get(rand).attack();
+        }
+        }
+    }
+    
+    public void comboBullets() throws SlickException {
+        if (time < -150){
+            blasters.get(1).attack(); blasters.get(2).attack();
+        }
+        if (time > -150 && time < - 100){
+            blasters.get(0).attack(); blasters.get(3).attack();
+        }
+        if (time > -100 && time <- 50){
+            blasters.get(1).attack(); blasters.get(2).attack();
+            blasters.get(0).attack(); blasters.get(3).attack();
+        }
     }
 }
